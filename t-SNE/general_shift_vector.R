@@ -50,12 +50,8 @@ x = Rtsne(nom_shift_vec)
 X= data.frame(x$Y)
 X = cbind(all_nom3_sg, X)
 head(X)
-#save figure as image
-#png(file="nominal_broad category.png", width = 350, height = 350)
-#didn't work
-#fig.write_image("nom_broad_categories.jpeg")
 
-fig = plot_ly(X,
+fig_nom = plot_ly(X,
               x= ~X1,
               y= ~X2,
               color = ~broad_category,
@@ -68,10 +64,10 @@ fig = plot_ly(X,
 #download.packages("reticulate")
 #library(reticulate)
 #save_image(fig, "nom_broad_categories.jpeg", width = 350, height = 350)
-fig
+fig_nom
 
 
-fig2 = plot_ly(X,
+fig_nom2 = plot_ly(X,
                x= ~X1,
                y= ~X2,
                color = ~gender,
@@ -80,7 +76,7 @@ fig2 = plot_ly(X,
                              "\nword: ", lemma,
                              "\nbroad category: ", broad_category),
                sizes=2)
-fig2
+fig_nom2
 
 
 
@@ -132,7 +128,7 @@ x = Rtsne(gen_shift_vec)
 X= data.frame(x$Y)
 X = cbind(all_gen3_sg, X)
 head(X)
-fig = plot_ly(X,
+fig_gen = plot_ly(X,
               x= ~X1,
               y= ~X2,
               color = ~broad_category,
@@ -141,9 +137,9 @@ fig = plot_ly(X,
                             "\nword: ", lemma,
                             "\nbroad category: ", broad_category),
               sizes=2)
-fig
+fig_gen
 
-fig2 = plot_ly(X,
+fig_gen2 = plot_ly(X,
                x= ~X1,
                y= ~X2,
                color = ~gender,
@@ -152,7 +148,7 @@ fig2 = plot_ly(X,
                              "\nword: ", lemma,
                              "\nbroad category: ", broad_category),
                sizes=2)
-fig2
+fig_gen2
 
 
 
@@ -204,7 +200,7 @@ x = Rtsne(acc_shift_vec)
 X= data.frame(x$Y)
 X = cbind(all_acc3_sg, X)
 head(X)
-fig = plot_ly(X,
+fig_acc = plot_ly(X,
               x= ~X1,
               y= ~X2,
               color = ~broad_category,
@@ -213,9 +209,9 @@ fig = plot_ly(X,
                             "\nword: ", lemma,
                             "\nbroad category: ", broad_category),
               sizes=2)
-fig
+fig_acc
 
-fig2 = plot_ly(X,
+fig_acc2 = plot_ly(X,
                x= ~X1,
                y= ~X2,
                color = ~gender,
@@ -224,7 +220,7 @@ fig2 = plot_ly(X,
                              "\nword: ", lemma,
                              "\nbroad category: ", broad_category),
                sizes=2)
-fig2
+fig_acc2
 
 
 
@@ -272,7 +268,7 @@ x = Rtsne(loc_shift_vec)
 X= data.frame(x$Y)
 X = cbind(all_loc3_sg, X)
 #head(X)
-fig = plot_ly(X,
+fig_loc = plot_ly(X,
               x= ~X1,
               y= ~X2,
               color = ~broad_category,
@@ -281,9 +277,9 @@ fig = plot_ly(X,
                             "\nword: ", lemma,
                             "\nbroad category: ", broad_category),
               sizes=2)
-fig
+fig_loc
 
-fig2 = plot_ly(X,
+fig_loc2 = plot_ly(X,
                x= ~X1,
                y= ~X2,
                color = ~gender,
@@ -292,7 +288,7 @@ fig2 = plot_ly(X,
                              "\nword: ", lemma,
                              "\nbroad category: ", broad_category),
                sizes=2)
-fig2
+fig_loc2
 
 
 
@@ -337,7 +333,7 @@ x = Rtsne(inst_shift_vec)
 X= data.frame(x$Y)
 X = cbind(all_inst2_sg, X)
 head(X)
-fig = plot_ly(X,
+fig_inst = plot_ly(X,
               x= ~X1,
               y= ~X2,
               color = ~broad_category,
@@ -346,9 +342,9 @@ fig = plot_ly(X,
                             "\nword: ", lemma,
                             "\nbroad category: ", broad_category),
               sizes=2)
-fig
+fig_inst
 
-fig2 = plot_ly(X,
+fig_inst2 = plot_ly(X,
                x= ~X1,
                y= ~X2,
                color = ~gender,
@@ -357,7 +353,7 @@ fig2 = plot_ly(X,
                              "\nword: ", lemma,
                              "\nbroad category: ", broad_category),
                sizes=2)
-fig2
+fig_inst2
 
 
 
@@ -405,8 +401,7 @@ dat_shift_vec = all_dat2_pl_vec-all_dat2_sg_vec
 
 #plotting shift vectors for dative case
 #x = Rtsne(dat_shift_vec)
-#Fehler in .check_tsne_params(nrow(X), dims = dims, perplexity = perplexity,  :
-#perplexity is too large for the number of samples
+#error: perplexity is too large for the number of samples
 
 
 
@@ -424,6 +419,14 @@ head(tab)
 
 
 
+#
+#
+#combine plots of individual cases in one overview graphic
+fig_semantics=subplot(fig_nom,fig_gen,fig_acc,fig_inst,fig_loc,nrows = 3)
+fig_semantics
+
+fig_gender=subplot(fig_nom2,fig_gen2,fig_acc2,fig_inst2,fig_loc2,nrows = 3)
+fig_gender
 #
 #
 #
@@ -461,7 +464,10 @@ fig = plot_ly(X,
               x= ~X1,
               y= ~X2,
               color = ~case,
-              text = ~gender,
+              text = ~paste("case: ", case,
+                            "\nword: ", word,
+                            "\ngender: ", gender),
+              
               symbol = ~gender,
               sizes=2)
 fig
