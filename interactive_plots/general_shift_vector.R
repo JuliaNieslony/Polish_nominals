@@ -1,0 +1,562 @@
+load("dfr.rda")
+load("ftm.rda")
+
+
+#ANALYSIS
+#looking at cases individually
+#
+#nominal case
+#create dataset including all occurences of nom
+#extract pl-sg pairs to obseve
+
+all_nom = dfr[dfr$case=="nom",]
+#head(all_nom)
+table(dfr$gender)
+tab = table(all_nom$lemma)
+table(tab)
+tab[tab==3]
+
+all_nom2 = all_nom[all_nom$lemma %in% names(tab[tab==2]),]
+#head(all_nom2)
+
+table(table(all_nom2$lemma))
+table(all_nom2$number)
+
+tab = table(all_nom2$lemma, all_nom2$number)
+#head(tab)
+which(tab[,"sg"]==2)
+which(tab[,"pl"]==2)
+all_nom3 = all_nom2[!is.element(all_nom2$lemma, names(which(tab[,"sg"]==2))),]
+table(all_nom3$lemma, all_nom3$number)
+
+all_nom3 = all_nom3[order(all_nom3$lemma,all_nom3$number),]
+#head(all_nom2)
+all_nom3_sg = all_nom3[all_nom3$number== "sg",]
+all_nom3_pl = all_nom3[all_nom3$number=="pl",]
+
+all_nom3_sg_vec = ftm[all_nom3_sg$word,]
+all_nom3_pl_vec = ftm[all_nom3_pl$word,]
+
+
+nom_shift_vec = all_nom3_pl_vec-all_nom3_sg_vec
+
+
+
+
+#tsne plotting of the nominal case
+library(Rtsne)
+library(plotly)
+x = Rtsne(nom_shift_vec)
+X= data.frame(x$Y)
+X = cbind(all_nom3_sg, X)
+head(X)
+#save figure as image
+#png(file="nominal_broad category.png", width = 350, height = 350)
+#didn't work
+#fig.write_image("nom_broad_categories.jpeg")
+
+fig = plot_ly(X,
+              x= ~X1,
+              y= ~X2,
+              color = ~broad_category,
+              text = ~paste("case: ", case,
+                            "\nnumber: ", number,
+                            "\nword: ", lemma,
+                            "\nbroad category: ", broad_category),
+              sizes=2)
+#layout(title = "broad categories in nominal case")
+#download.packages("reticulate")
+#library(reticulate)
+#save_image(fig, "nom_broad_categories.jpeg", width = 350, height = 350)
+fig
+
+
+fig2 = plot_ly(X,
+               x= ~X1,
+               y= ~X2,
+               color = ~gender,
+               text = ~paste("case: ", case,
+                             "\nnumber: ", number,
+                             "\nword: ", lemma,
+                             "\nbroad category: ", broad_category),
+               sizes=2)
+fig2
+
+
+
+#
+#
+#genitive
+#
+all_gen = dfr[dfr$case=="gen",]
+#head(all_gen)
+#dim(all_gen)
+tab = table(all_gen$lemma)
+table(tab)
+tab[tab==3]
+#names(tab[tab>2])
+all_gen[all_gen$lemma %in% names(tab[tab==3]),]
+
+
+#
+all_gen2 = all_gen[!(all_gen$word %in% c("dziawuv", "posta", "robota", "rzędu")) & all_gen$lemma %in% names(tab[tab==2]),]
+#head(all_gen2)
+#dim(all_gen2)
+
+table(table(all_gen2$lemma))
+table(all_gen2$number)
+
+#head(all_gen2)
+tab = table(all_gen2$lemma, all_gen2$number)
+#head(tab)
+which(tab[,"sg"]==2)
+which(tab[, "pl"]==2)
+all_gen3 = all_gen2[!is.element(all_gen2$lemma, names(which(tab[,"sg"]==2))),]
+table(all_gen3$lemma, all_gen3$number)
+
+all_gen3 = all_gen3[order(all_gen3$lemma,all_gen3$number),]
+#head(all_gen3)
+all_gen3_sg = all_gen3[all_gen3$number== "sg",]
+all_gen3_pl = all_gen3[all_gen3$number=="pl",]
+
+all_gen3_sg_vec = ftm[all_gen3_sg$word,]
+all_gen3_pl_vec = ftm[all_gen3_pl$word,]
+
+
+gen_shift_vec = all_gen3_pl_vec-all_gen3_sg_vec
+
+
+
+#plotting shift vectors for genitive case
+x = Rtsne(gen_shift_vec)
+X= data.frame(x$Y)
+X = cbind(all_gen3_sg, X)
+head(X)
+fig = plot_ly(X,
+              x= ~X1,
+              y= ~X2,
+              color = ~broad_category,
+              text = ~paste("case: ", case,
+                            "\nnumber: ", number,
+                            "\nword: ", lemma,
+                            "\nbroad category: ", broad_category),
+              sizes=2)
+fig
+
+fig2 = plot_ly(X,
+               x= ~X1,
+               y= ~X2,
+               color = ~gender,
+               text = ~paste("case: ", case,
+                             "\nnumber: ", number,
+                             "\nword: ", lemma,
+                             "\nbroad category: ", broad_category),
+               sizes=2)
+fig2
+
+
+
+
+#
+#
+#accusative
+all_acc = dfr[dfr$case=="acc",]
+#head(all_acc)
+#nrow(all_acc)
+tab = table(all_acc$lemma)
+table(tab)
+tab[tab==3]
+all_acc[all_acc$lemma %in% names(tab[tab==3]),]
+
+
+
+#
+all_acc2 = all_acc[all_acc$word != "strone"  &all_acc$lemma %in% names(tab[tab==2]),]
+#head(all_acc2)
+#dim(all_acc2)
+
+table(table(all_acc2$lemma))
+table(all_acc2$number)
+
+tab = table(all_acc2$lemma, all_acc2$number)
+#head(tab)
+#tab[,"sg"]
+which(tab[,"sg"]==2)
+which(tab[, "pl"]==2)
+all_acc3 = all_acc2[!is.element(all_acc2$lemma, names(which(tab[,"sg"]==2))),]
+table(all_acc3$lemma, all_acc3$number)
+
+all_acc3 = all_acc3[order(all_acc3$lemma,all_acc3$number),]
+#head(all_acc3)
+all_acc3_sg = all_acc3[all_acc3$number== "sg",]
+all_acc3_pl = all_acc3[all_acc3$number=="pl",]
+
+all_acc3_sg_vec = ftm[all_acc3_sg$word,]
+all_acc3_pl_vec = ftm[all_acc3_pl$word,]
+
+
+
+acc_shift_vec = all_acc3_pl_vec-all_acc3_sg_vec
+
+
+#plotting shift vectors for accusative case
+x = Rtsne(acc_shift_vec)
+X= data.frame(x$Y)
+X = cbind(all_acc3_sg, X)
+head(X)
+fig = plot_ly(X,
+              x= ~X1,
+              y= ~X2,
+              color = ~broad_category,
+              text = ~paste("case: ", case,
+                            "\nnumber: ", number,
+                            "\nword: ", lemma,
+                            "\nbroad category: ", broad_category),
+              sizes=2)
+fig
+
+fig2 = plot_ly(X,
+               x= ~X1,
+               y= ~X2,
+               color = ~gender,
+               text = ~paste("case: ", case,
+                             "\nnumber: ", number,
+                             "\nword: ", lemma,
+                             "\nbroad category: ", broad_category),
+               sizes=2)
+fig2
+
+
+
+#
+#
+#locative
+all_loc = dfr[dfr$case=="loc",]
+#head(all_loc)
+#nrow(all_loc)
+table(all_loc$gender)
+tab = table(all_loc$lemma)
+table(tab)
+tab[tab==3]
+
+
+#
+all_loc2 = all_loc[all_loc$lemma %in% names(tab[tab==2]),]
+#head(all_loc2)
+#dim(all_loc2)
+
+table(table(all_loc2$lemma))
+table(all_acc2$number)
+
+tab = table(all_loc2$lemma, all_loc2$number)
+#head(tab)
+which(tab[,"sg"]==2)
+which(tab[, "pl"]==2)
+all_loc3 = all_loc2[!is.element(all_loc2$lemma, names(which(tab[,"sg"]==2))) & !is.element(all_loc2$lemma, names(which(tab[,"pl"]==2))),]
+#table(all_loc3$lemma, all_loc3$number)
+
+all_loc3 = all_loc3[order(all_loc3$lemma,all_loc3$number),]
+#head(all_loc3)
+all_loc3_sg = all_loc3[all_loc3$number== "sg",]
+all_loc3_pl = all_loc3[all_loc3$number=="pl",]
+
+all_loc3_sg_vec = ftm[all_loc3_sg$word,]
+all_loc3_pl_vec = ftm[all_loc3_pl$word,]
+
+
+loc_shift_vec = all_loc3_pl_vec-all_loc3_sg_vec
+
+
+#plotting shift vectors for locative case
+x = Rtsne(loc_shift_vec)
+X= data.frame(x$Y)
+X = cbind(all_loc3_sg, X)
+#head(X)
+fig = plot_ly(X,
+              x= ~X1,
+              y= ~X2,
+              color = ~broad_category,
+              text = ~paste("case: ", case,
+                            "\nnumber: ", number,
+                            "\nword: ", lemma,
+                            "\nbroad category: ", broad_category),
+              sizes=2)
+fig
+
+fig2 = plot_ly(X,
+               x= ~X1,
+               y= ~X2,
+               color = ~gender,
+               text = ~paste("case: ", case,
+                             "\nnumber: ", number,
+                             "\nword: ", lemma,
+                             "\nbroad category: ", broad_category),
+               sizes=2)
+fig2
+
+
+
+#
+#
+#instrumental
+all_inst = dfr[dfr$case=="inst",]
+#head(all_inst)
+#nrow(all_inst)
+tab = table(all_inst$lemma)
+table(tab)
+tab[tab==3]
+all_inst[all_inst$lemma %in% names(tab[tab==3]),]
+
+#
+all_inst2 = all_inst[!(all_inst$word %in% c("latami","oczyma","słowy")) & all_inst$lemma %in% names(tab[tab==2]),]
+#head(all_inst2)
+#dim(all_inst2)
+
+table(table(all_inst2$lemma))
+table(all_inst2$number)
+
+tab = table(all_inst2$lemma, all_inst2$number)
+head(tab)
+which(tab[,"sg"]==2)
+which(tab[, "pl"]==2)
+
+all_inst2 = all_inst2[order(all_inst2$lemma,all_inst2$number),]
+#head(all_inst2)
+all_inst2_sg = all_inst2[all_inst2$number== "sg",]
+all_inst2_pl = all_inst2[all_inst2$number=="pl",]
+
+all_inst2_sg_vec = ftm[all_inst2_sg$word,]
+all_inst2_pl_vec = ftm[all_inst2_pl$word,]
+
+
+inst_shift_vec = all_inst2_pl_vec-all_inst2_sg_vec
+
+
+#plotting shift vectors for instrumental case
+x = Rtsne(inst_shift_vec)
+X= data.frame(x$Y)
+X = cbind(all_inst2_sg, X)
+head(X)
+fig = plot_ly(X,
+              x= ~X1,
+              y= ~X2,
+              color = ~broad_category,
+              text = ~paste("case: ", case,
+                            "\nnumber: ", number,
+                            "\nword: ", lemma,
+                            "\nbroad category: ", broad_category),
+              sizes=2)
+fig
+
+fig2 = plot_ly(X,
+               x= ~X1,
+               y= ~X2,
+               color = ~gender,
+               text = ~paste("case: ", case,
+                             "\nnumber: ", number,
+                             "\nword: ", lemma,
+                             "\nbroad category: ", broad_category),
+               sizes=2)
+fig2
+
+
+
+
+
+#
+#
+#dative
+#
+all_dat = dfr[dfr$case=="dat",]
+#head(all_dat)
+#dim(all_dat)
+table(all_dat$gender)
+tab = table(all_dat$lemma)
+table(tab)
+tab[tab==3]
+
+
+#
+all_dat2 = all_dat[all_dat$lemma %in% names(tab[tab==2]),]
+#head(all_dat2)
+#dim(all_dat2)
+
+table(table(all_dat2$lemma))
+table(all_dat2$number)
+
+head(all_dat2)
+tab = table(all_dat2$lemma, all_dat2$number)
+#head(tab)
+which(tab[,"sg"]==2)
+which(tab[, "pl"]==2)
+table(all_dat2$lemma, all_dat2$number)
+
+all_dat2 = all_dat2[order(all_dat2$lemma,all_dat2$number),]
+#head(all_dat2)
+all_dat2_sg = all_dat2[all_dat2$number== "sg",]
+all_dat2_pl = all_dat2[all_dat2$number=="pl",]
+
+all_dat2_sg_vec = ftm[all_dat2_sg$word,]
+all_dat2_pl_vec = ftm[all_dat2_pl$word,]
+
+
+dat_shift_vec = all_dat2_pl_vec-all_dat2_sg_vec
+
+
+#plotting shift vectors for dative case
+#x = Rtsne(dat_shift_vec)
+#Fehler in .check_tsne_params(nrow(X), dims = dims, perplexity = perplexity,  :
+#perplexity is too large for the number of samples
+
+
+
+
+#
+#
+#
+#vocative
+all_voc = dfr[dfr$case=="voc",]
+head(all_voc)
+tab = table(all_voc$lemma)
+table(tab)
+head(tab)
+#only singular occurences!
+
+
+
+#
+#
+#
+#
+#CALCULATE GENERAL SHIFT VECTORS
+#in reference to case
+#
+#
+general_shift_vec=rbind(nom_shift_vec, gen_shift_vec, acc_shift_vec,
+                        dat_shift_vec, inst_shift_vec, loc_shift_vec)
+w = c(rownames(nom_shift_vec),rownames(gen_shift_vec),rownames(acc_shift_vec),
+      rownames(dat_shift_vec),rownames(inst_shift_vec),rownames(loc_shift_vec))
+dfr2=dfr[as.character(dfr$word) %in% w,]
+#dim(dfr2)
+#dim(general_shift_vec)
+rownames(dfr2)=dfr2$word
+dfr2=dfr2[w,]
+#general_shift_vec[1:5,1:5]
+labels=c(rep("nom",nrow(nom_shift_vec)),
+         rep("gen",nrow(gen_shift_vec)),
+         rep("acc",nrow(acc_shift_vec)),
+         rep("dat",nrow(dat_shift_vec)),
+         rep("inst",nrow(inst_shift_vec)),
+         rep("loc",nrow(loc_shift_vec)))
+
+
+
+x = Rtsne(general_shift_vec)
+X= data.frame(x$Y)
+X$case = labels
+X$word = w
+X$gender = dfr2$gender
+head(X)
+fig = plot_ly(X,
+              x= ~X1,
+              y= ~X2,
+              color = ~case,
+              text = ~gender,
+              symbol = ~gender,
+              sizes=2)
+fig
+
+#
+#
+#
+#calculate average lexeme vectors
+
+lexemes = unique(dfr$lemma)
+head(lexemes)
+
+
+mean_mat=matrix(0,nrow=length(lexemes),ncol=ncol(ftm))
+row.names(mean_mat)=lexemes
+for(i in 1:length(lexemes)){
+  lex = lexemes[i]
+  pos = which(dfr$lemma==lex)
+  if(length(pos)==1){
+    mean_vec=ftm[pos,]
+  }else{
+    m = ftm[pos,]
+    mean_vec = apply(m,2,mean)
+  }
+  mean_mat[i,]=mean_vec
+}
+mean_mat[1:5,1:5]
+
+
+dfr_lex = unique(dfr[,c("lemma","broad_category")])
+head(rownames(mean_mat))
+head(dfr_lex)
+
+nrow(dfr_lex)
+rownames(dfr_lex)=1:nrow(dfr_lex)
+length(lexemes)
+nrow(mean_mat)
+tab=table(dfr_lex$lemma)
+tab[tab>1]
+dfr_lex[dfr_lex$lemma=="post",]
+dfr_lex=dfr_lex[-1297,]
+dfr_lex=dfr_lex[order(dfr_lex$lemma),]
+
+
+x = Rtsne(mean_mat)
+X= data.frame(x$Y)
+X = cbind(dfr_lex, X)
+head(X)
+fig = plot_ly(X,
+              x= ~X1,
+              y= ~X2,
+              color = ~broad_category,
+              text = ~paste("\nword: ", lemma,
+                            "\nbroad category: ", broad_category),
+              sizes=2)
+fig
+
+
+
+#
+#
+#calculate average vectors for case and gender
+#
+#mean vectors for cases in general
+case = unique(dfr$case)
+mean_case_mat=matrix(0,nrow=length(case),ncol=ncol(ftm))
+row.names(mean_case_mat)=case
+for(i in 1:length(case)){
+  ca = case[i]
+  pos = which(dfr$case==ca)
+  m = ftm[pos,]
+  mean_case_vec = apply(m,2,mean)
+  mean_case_mat[i,]=mean_vec
+}
+mean_case_mat[1:5,1:5]
+
+
+
+
+
+
+
+
+
+#
+#gender
+#
+gender = unique(dfr$gender)
+mean_gender_mat=matrix(0,nrow=length(gender),ncol=ncol(ftm))
+row.names(mean_gender_mat)=gender
+for(i in 1:length(gender)){
+  gen = gender[i]
+  pos = which(dfr$gender==gen)
+  m = ftm[pos,]
+  mean_vec = apply(m,2,mean)
+  mean_gender_mat[i,]=mean_vec
+}
+mean_gender_mat[1:2,1:5]

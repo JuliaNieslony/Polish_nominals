@@ -1,0 +1,21 @@
+#! /usr/bin/awk -f
+
+BEGIN{
+
+  infile = "words_new.txt"  
+  while (getline < infile > 0) {
+    WORDS[$1] = 1
+  }
+  close(infile)
+
+  infile = "polish_fasttext.vec" 
+  outfile = "my_embeddings.txt" 
+  system("rm " outfile)
+  while (getline < infile > 0) {
+    if ($1 in WORDS) print >> outfile
+  }
+  close(infile)
+  close(outfile)
+
+}
+
