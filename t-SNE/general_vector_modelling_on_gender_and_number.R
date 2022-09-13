@@ -38,7 +38,9 @@ fig = plot_ly(X,
               text = ~paste("case: ", case, 
                             "\nnumber: ", number, 
                             "\nword: ", noun),
-              symbol = ~gender)
+              symbol = ~gender)%>% 
+              layout(xaxis = list(title = list(text ='t-SNE 1')),
+                     yaxis = list(title = list(text ='t-SNE 2')))
 fig
 
 fig2 = plot_ly(X,
@@ -48,5 +50,7 @@ fig2 = plot_ly(X,
                text = ~paste("case: ", case, 
                              "\nnumber: ", number, 
                              "\nword: ", noun),
-               symbol = ~number)
+               symbol = ~number)%>% 
+  layout(xaxis = list(title = list(text ='t-SNE 1')),
+         yaxis = list(title = list(text ='t-SNE 2')))
 fig2

@@ -226,3 +226,4 @@ names_accuracies = c("general", "sg", "pl", "gen", "nom", "acc", "loc", "inst", 
 accuracies.df = data.frame(names_accuracies, accuracies)
 accuracies.df
 write.csv(accuracies.df, "accuracies_cases_lda")
+

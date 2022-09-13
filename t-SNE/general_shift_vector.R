@@ -59,11 +59,9 @@ fig_nom = plot_ly(X,
                             "\nnumber: ", number,
                             "\nword: ", lemma,
                             "\nbroad category: ", broad_category),
-              sizes=2)
-#layout(title = "broad categories in nominal case")
-#download.packages("reticulate")
-#library(reticulate)
-#save_image(fig, "nom_broad_categories.jpeg", width = 350, height = 350)
+              sizes=2)%>% 
+              layout(xaxis = list(title = list(text ='t-SNE 1')),
+                    yaxis = list(title = list(text ='t-SNE 2')))
 fig_nom
 
 
@@ -75,7 +73,9 @@ fig_nom2 = plot_ly(X,
                              "\nnumber: ", number,
                              "\nword: ", lemma,
                              "\nbroad category: ", broad_category),
-               sizes=2)
+               sizes=2)%>% 
+              layout(xaxis = list(title = list(text ='t-SNE 1')),
+              yaxis = list(title = list(text ='t-SNE 2')))
 fig_nom2
 
 
@@ -136,7 +136,9 @@ fig_gen = plot_ly(X,
                             "\nnumber: ", number,
                             "\nword: ", lemma,
                             "\nbroad category: ", broad_category),
-              sizes=2)
+              sizes=2)%>% 
+              layout(xaxis = list(title = list(text ='t-SNE 1')),
+                     yaxis = list(title = list(text ='t-SNE 2')))
 fig_gen
 
 fig_gen2 = plot_ly(X,
@@ -147,7 +149,9 @@ fig_gen2 = plot_ly(X,
                              "\nnumber: ", number,
                              "\nword: ", lemma,
                              "\nbroad category: ", broad_category),
-               sizes=2)
+               sizes=2)%>% 
+              layout(xaxis = list(title = list(text ='t-SNE 1')),
+                      yaxis = list(title = list(text ='t-SNE 2')))
 fig_gen2
 
 
@@ -208,7 +212,9 @@ fig_acc = plot_ly(X,
                             "\nnumber: ", number,
                             "\nword: ", lemma,
                             "\nbroad category: ", broad_category),
-              sizes=2)
+              sizes=2)%>% 
+              layout(xaxis = list(title = list(text ='t-SNE 1')),
+                     yaxis = list(title = list(text ='t-SNE 2')))
 fig_acc
 
 fig_acc2 = plot_ly(X,
@@ -219,7 +225,9 @@ fig_acc2 = plot_ly(X,
                              "\nnumber: ", number,
                              "\nword: ", lemma,
                              "\nbroad category: ", broad_category),
-               sizes=2)
+               sizes=2)%>% 
+                layout(xaxis = list(title = list(text ='t-SNE 1')),
+                       yaxis = list(title = list(text ='t-SNE 2')))
 fig_acc2
 
 
@@ -276,7 +284,9 @@ fig_loc = plot_ly(X,
                             "\nnumber: ", number,
                             "\nword: ", lemma,
                             "\nbroad category: ", broad_category),
-              sizes=2)
+              sizes=2)%>% 
+              layout(xaxis = list(title = list(text ='t-SNE 1')),
+                     yaxis = list(title = list(text ='t-SNE 2')))
 fig_loc
 
 fig_loc2 = plot_ly(X,
@@ -287,7 +297,9 @@ fig_loc2 = plot_ly(X,
                              "\nnumber: ", number,
                              "\nword: ", lemma,
                              "\nbroad category: ", broad_category),
-               sizes=2)
+               sizes=2)%>% 
+              layout(xaxis = list(title = list(text ='t-SNE 1')),
+                     yaxis = list(title = list(text ='t-SNE 2')))
 fig_loc2
 
 
@@ -341,7 +353,9 @@ fig_inst = plot_ly(X,
                             "\nnumber: ", number,
                             "\nword: ", lemma,
                             "\nbroad category: ", broad_category),
-              sizes=2)
+              sizes=2)%>% 
+            layout(xaxis = list(title = list(text ='t-SNE 1')),
+                   yaxis = list(title = list(text ='t-SNE 2')))
 fig_inst
 
 fig_inst2 = plot_ly(X,
@@ -352,7 +366,9 @@ fig_inst2 = plot_ly(X,
                              "\nnumber: ", number,
                              "\nword: ", lemma,
                              "\nbroad category: ", broad_category),
-               sizes=2)
+               sizes=2)%>% 
+              layout(xaxis = list(title = list(text ='t-SNE 1')),
+                     yaxis = list(title = list(text ='t-SNE 2')))
 fig_inst2
 
 
@@ -422,10 +438,115 @@ head(tab)
 #
 #
 #combine plots of individual cases in one overview graphic
-fig_semantics=subplot(fig_nom,fig_gen,fig_acc,fig_inst,fig_loc,nrows = 3)
+fig_semantics=subplot(fig_nom,fig_gen,fig_acc,fig_inst,fig_loc,nrows = 3)%>% 
+              layout(
+                annotations=list( 
+                list( 
+                  x = 0.2,  
+                  y = 1.0,  
+                  text = "nominative",  
+                  xref = "paper",  
+                  yref = "paper",  
+                  xanchor = "center",  
+                  yanchor = "bottom",  
+                  showarrow = FALSE 
+                ),  
+                list( 
+                  x = 0.8,  
+                  y = 1,  
+                  text = "genitive",  
+                  xref = "paper",  
+                  yref = "paper",  
+                  xanchor = "center",  
+                  yanchor = "bottom",  
+                  showarrow = FALSE 
+                ),  
+                list( 
+                  x = 0.2,  
+                  y = 0.635,  
+                  text = "accusative",  
+                  xref = "paper",  
+                  yref = "paper",  
+                  xanchor = "center",  
+                  yanchor = "bottom",  
+                  showarrow = FALSE 
+                ),
+                list( 
+                  x = 0.8,  
+                  y = 0.635,  
+                  text = "instrumental",  
+                  xref = "paper",  
+                  yref = "paper",  
+                  xanchor = "center",  
+                  yanchor = "bottom",  
+                  showarrow = FALSE 
+                ),
+                list( 
+                  x = 0.2,  
+                  y = 0.3,  
+                  text = "locative",  
+                  xref = "paper",  
+                  yref = "paper",  
+                  xanchor = "center",  
+                  yanchor = "bottom",  
+                  showarrow = FALSE 
+                )))
+
 fig_semantics
 
-fig_gender=subplot(fig_nom2,fig_gen2,fig_acc2,fig_inst2,fig_loc2,nrows = 3)
+fig_gender=subplot(fig_nom2,fig_gen2,fig_acc2,fig_inst2,fig_loc2,nrows = 3)%>% 
+  layout(
+    annotations=list( 
+      list( 
+        x = 0.2,  
+        y = 1.0,  
+        text = "nominative",  
+        xref = "paper",  
+        yref = "paper",  
+        xanchor = "center",  
+        yanchor = "bottom",  
+        showarrow = FALSE
+      ),  
+      list( 
+        x = 0.8,  
+        y = 1,  
+        text = "genitive",  
+        xref = "paper",  
+        yref = "paper",  
+        xanchor = "center",  
+        yanchor = "bottom",  
+        showarrow = FALSE
+      ),  
+      list( 
+        x = 0.2,  
+        y = 0.635,  
+        text = "accusative",  
+        xref = "paper",  
+        yref = "paper",  
+        xanchor = "center",  
+        yanchor = "bottom",  
+        showarrow = FALSE 
+      ),
+      list( 
+        x = 0.8,  
+        y = 0.635,  
+        text = "instrumental",  
+        xref = "paper",  
+        yref = "paper",  
+        xanchor = "center",  
+        yanchor = "bottom",  
+        showarrow = FALSE 
+      ),
+      list( 
+        x = 0.2,  
+        y = 0.3,  
+        text = "locative",  
+        xref = "paper",  
+        yref = "paper",  
+        xanchor = "center",  
+        yanchor = "bottom",  
+        showarrow = FALSE 
+      )))
 fig_gender
 #
 #
