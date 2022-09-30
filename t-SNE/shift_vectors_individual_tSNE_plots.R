@@ -493,6 +493,7 @@ fig_semantics=subplot(fig_nom,fig_gen,fig_acc,fig_inst,fig_loc,nrows = 3)%>%
                 )))
 
 fig_semantics
+#saved as 'overview_shift_case_semantics_individual.html'
 
 fig_gender=subplot(fig_nom2,fig_gen2,fig_acc2,fig_inst2,fig_loc2,nrows = 3)%>% 
   layout(
@@ -548,6 +549,7 @@ fig_gender=subplot(fig_nom2,fig_gen2,fig_acc2,fig_inst2,fig_loc2,nrows = 3)%>%
         showarrow = FALSE 
       )))
 fig_gender
+#saved as 'overview_shift_case_gender_individual.html'
 #
 #
 #
@@ -592,5 +594,6 @@ fig = plot_ly(X,
               symbol = ~gender,
               sizes=2)
 fig
+#saved as 'general_shift_vectors.html'
 
 

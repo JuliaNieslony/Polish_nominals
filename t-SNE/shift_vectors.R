@@ -530,6 +530,7 @@ fig_semantics=subplot(fig_gen, fig_nom, fig_loc,fig_acc,fig_inst,nrows = 3)%>%
       )))
 
 fig_semantics
+#saved as 'overview_shift_vectors_from_general_tSNE_semantics.html'
 
 fig_gender = subplot(fig_gen2, fig_nom2, fig_loc2, fig_acc2, fig_inst2, nrows = 3)%>% 
   layout(
@@ -585,7 +586,7 @@ fig_gender = subplot(fig_gen2, fig_nom2, fig_loc2, fig_acc2, fig_inst2, nrows = 
         showarrow = FALSE 
       )))
 fig_gender
-
+#saved as 'overview_shift_vectors_from_general_tSNE_gender.html'
 
 
 

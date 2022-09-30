@@ -102,6 +102,7 @@ fig_sg_pl=subplot(fig_sg, fig_pl, nrows = 1)%>%
         showarrow = FALSE 
       )))
 fig_sg_pl
+#saved as 'sg_vs_pl_case_gender.html'
 
 #tsne plotting of individual cases
 #from biggest to smallest group
@@ -313,6 +314,7 @@ overview_number=subplot(fig_gen, fig_nom, fig_loc,fig_acc,fig_inst,nrows = 3)%>%
       )))
 
 overview_number
+#saved as 'overview_case_number.html'
 
 overview_gender = subplot(fig_gen2, fig_nom2, fig_loc2, fig_acc2, fig_inst2, nrows = 3)%>% 
   layout(
@@ -368,5 +370,5 @@ overview_gender = subplot(fig_gen2, fig_nom2, fig_loc2, fig_acc2, fig_inst2, nro
         showarrow = FALSE 
       )))
 overview_gender
-
+#saved as 'overview_case_gender.html'
 

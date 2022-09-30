@@ -49,7 +49,7 @@ fig = plot_ly(X,
                             "\nbroad category: ", broad_category),
               sizes=2)
 fig
-
+#saved as 'average_vectors_semantics.html'
 
 
 #
