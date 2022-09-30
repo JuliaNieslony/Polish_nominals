@@ -7,7 +7,7 @@ load("ftm.rda")
 #
 #nominal case
 #create dataset including all occurences of nom
-#extract pl-sg pairs to obseve
+#extract pl-sg pairs to observe
 
 all_nom = dfr[dfr$case=="nom",]
 #head(all_nom)
@@ -438,7 +438,7 @@ fig_acc2 = plot_ly(A,
 fig_acc2
 
 
-#the accusative case
+#the instrumental case
 I = X[X$case=="inst",]
 fig_inst = plot_ly(I,
                   x= ~X1,
@@ -585,6 +585,7 @@ fig_gender = subplot(fig_gen2, fig_nom2, fig_loc2, fig_acc2, fig_inst2, nrows = 
         showarrow = FALSE 
       )))
 fig_gender
+
 
 
 
